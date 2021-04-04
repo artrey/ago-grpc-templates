@@ -1,0 +1,42 @@
+syntax = "proto3";  // версия proto (по умолчанию - proto2)
+
+package templates.v1;  // пакет - для операций import'а
+option go_package = "pkg/templates/v1";  // полный путь пакета для go
+
+import "google/protobuf/timestamp.proto";  // импортируем из другого proto (стандартная поставка)
+import "google/protobuf/empty.proto";  // импортируем из другого proto (стандартная поставка)
+
+service TemplatesService {
+  rpc Create(TemplateCreateRequest) returns (TemplateResponse);
+  rpc List(google.protobuf.Empty) returns (TemplatesResponse);
+  rpc GetById(TemplateByIdRequest) returns (TemplateResponse);
+  rpc UpdateById(TemplateUpdateRequest) returns (TemplateResponse);
+  rpc DeleteById(TemplateByIdRequest) returns (TemplateResponse);
+}
+
+message TemplateCreateRequest {
+  string title = 1;
+  string phone = 2;
+}
+
+message TemplateResponse {
+  int64 id = 1;
+  string title = 2;
+  string phone = 3;
+  google.protobuf.Timestamp created = 4;
+  google.protobuf.Timestamp updated = 5;
+}
+
+message TemplatesResponse {
+  repeated TemplateResponse items = 1;
+}
+
+message TemplateByIdRequest {
+  int64 id = 1;
+}
+
+message TemplateUpdateRequest {
+  int64 id = 1;
+  string title = 2;
+  string phone = 3;
+}
