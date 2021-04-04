@@ -1,0 +1,15 @@
+version: '3.7'
+
+volumes:
+  dbdata:
+
+services:
+  db:
+    image: library/postgres:alpine
+    ports:
+      - 5532:5432
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - dbdata:/var/lib/postgresql/data
+    env_file:
+      - .env
